@@ -1,11 +1,11 @@
 // 自动生成 — 请勿手动编辑
-// 生成时间: 2026-06-06T15:33:47.223Z
+// 生成时间: 2026-06-06T15:38:16.061Z
 // 图片总数: 86
-// 校验码: 41d39ca1
+// 校验码: 8c627000
 // 运行 node scan-manifest.js 刷新
 
 const GALLERY_MANIFEST = {
-  "generated": "2026-06-06T15:33:17.001Z",
+  "generated": "2026-06-06T15:37:45.131Z",
   "totalImages": 84,
   "categories": [
     {
@@ -440,7 +440,13 @@ const GALLERY_MANIFEST = {
       "src": "入坑和启蒙/水的女儿.jpg",
       "category": 1,
       "size": 1798128,
-      "mtime": 1780649269356.5344
+      "mtime": 1780649269356.5344,
+      "overrides": {
+        "title": "水的女儿",
+        "category": 1,
+        "note": "仿若无因飘落的轻雨",
+        "hidden": false
+      }
     },
     {
       "name": "素晴日.jpg",
@@ -538,7 +544,13 @@ const GALLERY_MANIFEST = {
       "src": "入坑和启蒙/薪炎永燃.jpg",
       "category": 1,
       "size": 9333940,
-      "mtime": 1780739531398.1182
+      "mtime": 1780739531398.1182,
+      "overrides": {
+        "title": "薪炎永燃",
+        "category": 1,
+        "note": "愿薪火相传，美德不灭",
+        "hidden": false
+      }
     },
     {
       "name": "学院偶像大师.jpg",
@@ -573,7 +585,13 @@ const GALLERY_MANIFEST = {
       "src": "入坑和启蒙/羽渡尘.jpg",
       "category": 1,
       "size": 233078,
-      "mtime": 1780649269605.5356
+      "mtime": 1780649269605.5356,
+      "overrides": {
+        "title": "羽渡尘",
+        "category": 1,
+        "note": "千年之羽，归于此处",
+        "hidden": false
+      }
     },
     {
       "name": "战场原荡漾.jpg",
@@ -601,7 +619,13 @@ const GALLERY_MANIFEST = {
       "src": "入坑和启蒙/最好的伙伴！.jpg",
       "category": 1,
       "size": 297800,
-      "mtime": 1780649248470.1802
+      "mtime": 1780649248470.1802,
+      "overrides": {
+        "title": "最好的伙伴！",
+        "category": 1,
+        "note": "派蒙！最好的伙伴！",
+        "hidden": false
+      }
     },
     {
       "name": "ALICE&KEY.jpg",
