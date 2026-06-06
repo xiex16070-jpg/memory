@@ -1,11 +1,11 @@
 // 自动生成 — 请勿手动编辑
-// 生成时间: 2026-06-06T14:30:49.306Z
+// 生成时间: 2026-06-06T14:31:53.070Z
 // 图片总数: 86
-// 校验码: 49a69041
+// 校验码: -c7bced5f
 // 运行 node scan-manifest.js 刷新
 
 const GALLERY_MANIFEST = {
-  "generated": "2026-06-06T14:30:18.365Z",
+  "generated": "2026-06-06T14:31:18.231Z",
   "totalImages": 86,
   "categories": [
     {
@@ -628,7 +628,13 @@ const GALLERY_MANIFEST = {
       "src": "入坑和启蒙/K-ON!.jpg",
       "category": 1,
       "size": 366238,
-      "mtime": 1780739529344.7188
+      "mtime": 1780739529344.7188,
+      "overrides": {
+        "title": "K—ON！",
+        "category": 1,
+        "note": "轻音永不毕业！",
+        "hidden": false
+      }
     },
     {
       "name": "kotone.jpg",
