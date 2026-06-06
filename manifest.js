@@ -1,12 +1,12 @@
 // 自动生成 — 请勿手动编辑
-// 生成时间: 2026-06-06T14:33:59.368Z
+// 生成时间: 2026-06-06T15:33:47.223Z
 // 图片总数: 86
-// 校验码: -45c38867
+// 校验码: 41d39ca1
 // 运行 node scan-manifest.js 刷新
 
 const GALLERY_MANIFEST = {
-  "generated": "2026-06-06T14:33:58.362Z",
-  "totalImages": 86,
+  "generated": "2026-06-06T15:33:17.001Z",
+  "totalImages": 84,
   "categories": [
     {
       "id": 1,
@@ -248,10 +248,10 @@ const GALLERY_MANIFEST = {
       "size": 27157694,
       "mtime": 1780739538472.186,
       "overrides": {
-        "title": "绘世之卷",
+        "title": "绘世之卷.jpg",
         "category": 1,
-        "note": "“旭光出现的时候，繁星便消失不见了”",
-        "hidden": false
+        "note": "",
+        "hidden": true
       }
     },
     {
@@ -301,7 +301,13 @@ const GALLERY_MANIFEST = {
       "src": "入坑和启蒙/旅途.png",
       "category": 1,
       "size": 8486409,
-      "mtime": 1780739538612.6123
+      "mtime": 1780739538612.6123,
+      "overrides": {
+        "title": "旅途.png",
+        "category": 1,
+        "note": "",
+        "hidden": true
+      }
     },
     {
       "name": "绿色.jpg",
@@ -343,13 +349,7 @@ const GALLERY_MANIFEST = {
       "src": "入坑和启蒙/千手百眼，天下人间.jpg",
       "category": 1,
       "size": 2080614,
-      "mtime": 1780649261779.1714,
-      "overrides": {
-        "title": "千手百眼，天下人间",
-        "category": 1,
-        "note": "“唯有永恒，才最接近天理”",
-        "hidden": false
-      }
+      "mtime": 1780649261779.1714
     },
     {
       "name": "秦谷美玲.jpg",
@@ -517,13 +517,7 @@ const GALLERY_MANIFEST = {
       "src": "入坑和启蒙/夕立方程式.jpg",
       "category": 1,
       "size": 1662008,
-      "mtime": 1780739542597.941,
-      "overrides": {
-        "title": "夕立方程式",
-        "category": 1,
-        "note": "终物语的结尾，你到底在信里写了什么呢？",
-        "hidden": false
-      }
+      "mtime": 1780739542597.941
     },
     {
       "name": "向日葵和小太阳.webp",
@@ -628,13 +622,7 @@ const GALLERY_MANIFEST = {
       "src": "入坑和启蒙/K-ON!.jpg",
       "category": 1,
       "size": 366238,
-      "mtime": 1780739529344.7188,
-      "overrides": {
-        "title": "K—ON！",
-        "category": 1,
-        "note": "轻音永不毕业！",
-        "hidden": false
-      }
+      "mtime": 1780739529344.7188
     },
     {
       "name": "kotone.jpg",
