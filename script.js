@@ -328,6 +328,7 @@ const adminLogoutBtn = $('#adminLogoutBtn');
 // Admin Music Controls
 const adminMusicControls = $('#adminMusicControls');
 const adminMusicPlayBtn = $('#adminMusicPlayBtn');
+const adminMusicSelect = $('#adminMusicSelect');
 const adminMusicVolume = $('#adminMusicVolume');
 const adminMusicTrackInfo = $('#adminMusicTrackInfo');
 
@@ -445,7 +446,19 @@ function initBackgroundMusic() {
     if (adminMusicVolume) adminMusicVolume.value = 45;
   }
 
-  setTrack(defaultTrack);
+  // 恢复上次选择的曲目（若存在）
+  const savedTrack = safeGetStorage('gallery_bg_track');
+  if (savedTrack) {
+    const idx = musicTracks.findIndex(t => t.file === savedTrack);
+    if (idx >= 0) {
+      currentTrackIndex = idx;
+      setTrack(musicTracks[idx].file);
+    } else {
+      setTrack(defaultTrack);
+    }
+  } else {
+    setTrack(defaultTrack);
+  }
 
   // 尝试自动播放（用户首次交互后生效）
   const tryAutoPlay = () => {
@@ -482,6 +495,34 @@ function initAdminMusicControls() {
 
   // 同步初始音量
   adminMusicVolume.value = Math.round(audioPlayer.volume * 100);
+
+  // 构建曲目选择下拉（管理员可切换曲目）
+  if (adminMusicSelect) {
+    adminMusicSelect.innerHTML = '';
+    musicTracks.forEach((t, idx) => {
+      const opt = document.createElement('option');
+      opt.value = t.file;
+      opt.textContent = t.name || t.file;
+      adminMusicSelect.appendChild(opt);
+    });
+    // 尝试恢复上次选择
+    const saved = safeGetStorage('gallery_bg_track');
+    if (saved) {
+      const found = Array.from(adminMusicSelect.options).find(o => o.value === saved);
+      if (found) adminMusicSelect.value = saved;
+    } else if (musicTracks.length > 0) {
+      // 选中当前TrackIndex对应项
+      if (musicTracks[currentTrackIndex]) adminMusicSelect.value = musicTracks[currentTrackIndex].file;
+    }
+    adminMusicSelect.addEventListener('change', () => {
+      const file = adminMusicSelect.value;
+      if (file) {
+        setTrack(file);
+        safeSetStorage('gallery_bg_track', file);
+        audioPlayer.play().catch(() => {});
+      }
+    });
+  }
 
   // 播放/暂停切换
   let isPlaying = !audioPlayer.paused;
@@ -521,8 +562,11 @@ function initAdminMusicControls() {
       currentTrackIndex = (currentTrackIndex + 1) % musicTracks.length;
       const track = musicTracks[currentTrackIndex];
       setTrack(track.file);
+      safeSetStorage('gallery_bg_track', track.file);
       audioPlayer.play().catch(() => {});
       isPlaying = true;
+      // 同步下拉选择（若存在）
+      if (adminMusicSelect) adminMusicSelect.value = track.file;
       updatePlayBtn();
     });
     adminMusicPlayBtn.title = '单击播放/暂停，双击切换曲目';
