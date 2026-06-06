@@ -1,11 +1,11 @@
 // 自动生成 — 请勿手动编辑
-// 生成时间: 2026-06-06T15:38:16.061Z
+// 生成时间: 2026-06-06T15:49:27.506Z
 // 图片总数: 86
-// 校验码: 8c627000
+// 校验码: a5226b21
 // 运行 node scan-manifest.js 刷新
 
 const GALLERY_MANIFEST = {
-  "generated": "2026-06-06T15:37:45.131Z",
+  "generated": "2026-06-06T15:49:25.993Z",
   "totalImages": 84,
   "categories": [
     {
@@ -57,14 +57,26 @@ const GALLERY_MANIFEST = {
       "src": "那些无可替代的夏天/白线.jpg",
       "category": 3,
       "size": 191977,
-      "mtime": 1780649235939.7417
+      "mtime": 1780649235939.7417,
+      "overrides": {
+        "title": "白线",
+        "category": 3,
+        "note": "莉莉莉莉娅",
+        "hidden": false
+      }
     },
     {
       "name": "宝石之国.jpg",
       "src": "那些无可替代的夏天/宝石之国.jpg",
       "category": 3,
       "size": 1008686,
-      "mtime": 1780649270937.519
+      "mtime": 1780649270937.519,
+      "overrides": {
+        "title": "宝石之国",
+        "category": 3,
+        "note": "“冬日从你那里夺去的，春日会如数奉还”",
+        "hidden": false
+      }
     },
     {
       "name": "波虹.webp",
@@ -92,7 +104,13 @@ const GALLERY_MANIFEST = {
       "src": "青春和热爱/超时空辉夜姬！.jpg",
       "category": 2,
       "size": 506723,
-      "mtime": 1780739524367.2683
+      "mtime": 1780739524367.2683,
+      "overrides": {
+        "title": "超时空辉夜姬！",
+        "category": 2,
+        "note": "最好的新年礼物！",
+        "hidden": false
+      }
     },
     {
       "name": "赤月传承.jpg",
@@ -106,14 +124,26 @@ const GALLERY_MANIFEST = {
       "src": "青春和热爱/赤座灯里.jpg",
       "category": 2,
       "size": 45515955,
-      "mtime": 1780739551826.3828
+      "mtime": 1780739551826.3828,
+      "overrides": {
+        "title": "赤座灯里",
+        "category": 2,
+        "note": "最艰难的高三，感谢摇曳百合一路陪伴，我永远爱你，dear akari akaza",
+        "hidden": false
+      }
     },
     {
       "name": "出航.jpg",
       "src": "那些无可替代的夏天/出航.jpg",
       "category": 3,
       "size": 376689,
-      "mtime": 1780739553443.0105
+      "mtime": 1780739553443.0105,
+      "overrides": {
+        "title": "出航",
+        "category": 3,
+        "note": "“和我一起出航吧，学姐”",
+        "hidden": false
+      }
     },
     {
       "name": "初始之音.jpg",
@@ -134,7 +164,13 @@ const GALLERY_MANIFEST = {
       "src": "那些无可替代的夏天/春岚.jpg",
       "category": 3,
       "size": 425979,
-      "mtime": 1780739547735.6616
+      "mtime": 1780739547735.6616,
+      "overrides": {
+        "title": "春岚",
+        "category": 3,
+        "note": "在春日的中心呼唤暴雨————",
+        "hidden": false
+      }
     },
     {
       "name": "第一苍系.jpg",
@@ -321,7 +357,13 @@ const GALLERY_MANIFEST = {
       "src": "青春和热爱/明日酱的水手服.png",
       "category": 2,
       "size": 1390587,
-      "mtime": 1780739528245.4265
+      "mtime": 1780739528245.4265,
+      "overrides": {
+        "title": "明日酱的水手服",
+        "category": 2,
+        "note": "谁心中热情与纯洁的代名词～",
+        "hidden": false
+      }
     },
     {
       "name": "魔法少女的魔法裁判.jpg",
@@ -335,7 +377,13 @@ const GALLERY_MANIFEST = {
       "src": "入坑和启蒙/魔法少女小圆.jpg",
       "category": 1,
       "size": 481579,
-      "mtime": 1780739550528.395
+      "mtime": 1780739550528.395,
+      "overrides": {
+        "title": "逆转时间的公式",
+        "category": 1,
+        "note": "为你，千千万万遍",
+        "hidden": false
+      }
     },
     {
       "name": "叛逆期.jpg",
@@ -412,7 +460,13 @@ const GALLERY_MANIFEST = {
       "src": "青春和热爱/生日快乐.jpg",
       "category": 2,
       "size": 192186,
-      "mtime": 1780739551872.3904
+      "mtime": 1780739551872.3904,
+      "overrides": {
+        "title": "happy birthday！",
+        "category": 2,
+        "note": "再见了，爱丽丝，希望你以后的旅途，依然充满友情，勇气，与光的浪漫",
+        "hidden": false
+      }
     },
     {
       "name": "生生不息.jpg",
@@ -426,7 +480,13 @@ const GALLERY_MANIFEST = {
       "src": "入坑和启蒙/识之律者.jpg",
       "category": 1,
       "size": 357091,
-      "mtime": 1780649263434.102
+      "mtime": 1780649263434.102,
+      "overrides": {
+        "title": "枫色",
+        "category": 1,
+        "note": "",
+        "hidden": false
+      }
     },
     {
       "name": "双子.jpeg",
@@ -509,7 +569,13 @@ const GALLERY_MANIFEST = {
       "src": "入坑和启蒙/物语.jpg",
       "category": 1,
       "size": 279611,
-      "mtime": 1780739549438.884
+      "mtime": 1780739549438.884,
+      "overrides": {
+        "title": "物语",
+        "category": 1,
+        "note": "",
+        "hidden": false
+      }
     },
     {
       "name": "物语.png",
@@ -612,7 +678,13 @@ const GALLERY_MANIFEST = {
       "src": "青春和热爱/终末少女旅行.jpg",
       "category": 2,
       "size": 461539,
-      "mtime": 1780739554762.6433
+      "mtime": 1780739554762.6433,
+      "overrides": {
+        "title": "少女终末旅行",
+        "category": 2,
+        "note": "愿世间再无战争，愿人类荣光永存",
+        "hidden": false
+      }
     },
     {
       "name": "最好的伙伴！.jpg",
@@ -674,7 +746,13 @@ const GALLERY_MANIFEST = {
       "src": "青春和热爱/SBR.jpeg",
       "category": 2,
       "size": 1526227,
-      "mtime": 1780739525661.6917
+      "mtime": 1780739525661.6917,
+      "overrides": {
+        "title": "SBR！",
+        "category": 2,
+        "note": "“乔尼，lesson five 哒”",
+        "hidden": false
+      }
     },
     {
       "name": "SBR1.jpeg",
