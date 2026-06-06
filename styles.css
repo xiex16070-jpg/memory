@@ -241,6 +241,187 @@ body::after {
   font-size: 0.82rem;
 }
 
+.admin-music-select {
+  padding: 6px 10px;
+  border: 1px solid var(--border-light);
+  border-radius: 999px;
+  background: rgba(255, 252, 247, 0.9);
+  color: var(--text);
+  font-size: 0.8rem;
+  outline: none;
+  cursor: pointer;
+  max-width: 200px;
+  font-family: inherit;
+}
+
+.admin-music-select:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(124, 184, 156, 0.12);
+}
+
+/* Music Management Modal */
+.modal-music {
+  max-width: 600px;
+}
+
+.music-mgmt-add-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.music-file-input {
+  flex: 0 0 auto;
+  max-width: 180px;
+  font-size: 0.78rem;
+}
+
+.music-filename-input {
+  flex: 1;
+  min-width: 140px;
+  font-size: 0.85rem;
+}
+
+.music-mgmt-or {
+  color: var(--muted);
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.music-add-btn {
+  flex-shrink: 0;
+  padding: 10px 16px;
+  font-size: 0.85rem;
+}
+
+.music-track-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.music-track-count {
+  font-size: 0.78rem;
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+.music-track-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.music-track-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(255, 250, 244, 0.7);
+  border: 1px solid var(--border-light);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.music-track-item:hover {
+  background: rgba(255, 248, 240, 0.9);
+  border-color: var(--border-strong);
+}
+
+.music-track-item.active {
+  background: rgba(124, 184, 156, 0.08);
+  border-color: rgba(124, 184, 156, 0.3);
+}
+
+.music-track-item-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.music-track-item-name {
+  flex: 1;
+  font-size: 0.88rem;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.music-track-item-badge {
+  font-size: 0.68rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(124, 184, 156, 0.12);
+  color: var(--accent);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.music-track-item-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.music-track-item-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--border-light);
+  background: rgba(255, 248, 240, 0.9);
+  color: var(--text);
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, transform 0.15s ease;
+  line-height: 1;
+}
+
+.music-track-item-btn:hover {
+  transform: scale(1.1);
+}
+
+.music-track-item-btn.play-btn:hover {
+  background: rgba(124, 184, 156, 0.2);
+  border-color: var(--accent);
+}
+
+.music-track-item-btn.delete-btn:hover {
+  background: rgba(224, 112, 112, 0.2);
+  border-color: var(--danger);
+}
+
+@media (max-width: 600px) {
+  .music-mgmt-add-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .music-file-input {
+    max-width: 100%;
+  }
+
+  .music-mgmt-or {
+    text-align: center;
+  }
+
+  .music-track-item-name {
+    font-size: 0.8rem;
+  }
+}
+
 /* Admin Bar */
 .admin-bar {
   position: sticky;

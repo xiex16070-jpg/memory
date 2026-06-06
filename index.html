@@ -48,6 +48,7 @@
         <span id="adminMusicTrackInfo" class="admin-music-track-info">🎵 HOYO-MiX - I'm back, Kiana</span>
       </div>
       <div class="admin-bar-right">
+        <button id="adminMusicMgmtBtn" class="btn btn-secondary" title="管理背景音乐">🎵 音乐管理</button>
         <button id="adminAddBtn" class="btn admin-add-btn" title="添加新作品">➕ 添加作品</button>
         <button id="adminLogoutBtn" class="btn btn-secondary" title="退出管理">🚪 退出</button>
       </div>
@@ -175,6 +176,32 @@
         <button id="deleteCancelBtn" class="btn btn-secondary">取消</button>
         <button id="deleteConfirmBtn" class="btn form-delete-btn">确认删除</button>
       </div>
+    </div>
+  </div>
+
+  <!-- ===== 音乐管理弹窗 ===== -->
+  <div id="musicMgmtModal" class="modal-overlay" aria-hidden="true">
+    <div class="modal-panel modal-music">
+      <button class="modal-close" id="musicMgmtClose" aria-label="关闭音乐管理">✕</button>
+      <div class="modal-icon">🎵</div>
+      <h3 class="modal-title">背景音乐管理</h3>
+      <p class="modal-desc">添加或移除背景音乐曲目，支持 mp3 / flac / wav / ogg 格式。</p>
+
+      <!-- 添加区域 -->
+      <div class="music-mgmt-add-row">
+        <input type="file" id="musicFileInput" class="form-file music-file-input" accept="audio/mp3,audio/mpeg,audio/flac,audio/wav,audio/ogg,audio/x-wav,.mp3,.flac,.wav,.ogg">
+        <span class="music-mgmt-or">或</span>
+        <input type="text" id="musicFilenameInput" class="form-input music-filename-input" placeholder="输入根目录下的音乐文件名…" maxlength="256">
+        <button id="musicAddBtn" class="btn music-add-btn">➕ 添加</button>
+      </div>
+      <p id="musicAddError" class="form-error" style="display:none;"></p>
+
+      <!-- 曲目列表 -->
+      <div class="music-track-list-header">
+        <span>📋 当前曲目列表</span>
+        <span id="musicTrackCount" class="music-track-count"></span>
+      </div>
+      <div id="musicTrackList" class="music-track-list"></div>
     </div>
   </div>
 

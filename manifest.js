@@ -1,12 +1,12 @@
 // 自动生成 — 请勿手动编辑
-// 生成时间: 2026-06-06T01:49:10.357Z
-// 图片总数: 38
-// 校验码: 55d39b6360fd7d8d
+// 生成时间: 2026-06-06T06:48:13.142Z
+// 图片总数: 32
+// 校验码: 35c6f31977ac3d1e
 // 运行 node scan-manifest.js 刷新
 
 const GALLERY_MANIFEST = {
-  "generated": "2026-06-06T01:49:10.357Z",
-  "totalImages": 38,
+  "generated": "2026-06-06T06:48:13.142Z",
+  "totalImages": 32,
   "categories": [
     {
       "id": 1,
@@ -65,13 +65,6 @@ const GALLERY_MANIFEST = {
       "category": 5,
       "size": 112163,
       "mtime": 1780649271528.2942
-    },
-    {
-      "name": "20260519_075743.jpg",
-      "src": "一些其他优秀作品/20260519_075743.jpg",
-      "category": 5,
-      "size": 1627129,
-      "mtime": 1780649273922.5615
     },
     {
       "name": "20260519_093743.jpg",
@@ -165,20 +158,6 @@ const GALLERY_MANIFEST = {
       "mtime": 1780649254000.6768
     },
     {
-      "name": "20260601_203028.jpg",
-      "src": "近来的优秀作品/20260601_203028.jpg",
-      "category": 4,
-      "size": 220712,
-      "mtime": 1780649253017.5696
-    },
-    {
-      "name": "20260601_203756.jpg",
-      "src": "近来的优秀作品/20260601_203756.jpg",
-      "category": 4,
-      "size": 267955,
-      "mtime": 1780649251921.6877
-    },
-    {
       "name": "20260601_213503.jpg",
       "src": "近来的优秀作品/20260601_213503.jpg",
       "category": 4,
@@ -198,13 +177,6 @@ const GALLERY_MANIFEST = {
       "category": 4,
       "size": 946270,
       "mtime": 1780649250306.092
-    },
-    {
-      "name": "20260602_193720.jpg",
-      "src": "近来的优秀作品/20260602_193720.jpg",
-      "category": 4,
-      "size": 323318,
-      "mtime": 1780649247800.6057
     },
     {
       "name": "20260603_103815.jpg",
@@ -277,13 +249,6 @@ const GALLERY_MANIFEST = {
       "mtime": 1780649233992.198
     },
     {
-      "name": "微信图片_20250922104041_219_5_upscayl_4x_digital-art-4x.png",
-      "src": "贝贝早期的入坑和启蒙作品/微信图片_20250922104041_219_5_upscayl_4x_digital-art-4x.png",
-      "category": 1,
-      "size": 87967020,
-      "mtime": 1780647869583.5273
-    },
-    {
       "name": "微信图片_20250924180157_232_5.jpg",
       "src": "贝贝早期的入坑和启蒙作品/微信图片_20250924180157_232_5.jpg",
       "category": 1,
@@ -303,21 +268,14 @@ const GALLERY_MANIFEST = {
       "category": 1,
       "size": 1062347,
       "mtime": 1762581996631.6963
-    },
-    {
-      "name": "微信图片_20260124103147_301_4_upscayl_5x_digital-art-4x.png",
-      "src": "贝贝早期的入坑和启蒙作品/微信图片_20260124103147_301_4_upscayl_5x_digital-art-4x.png",
-      "category": 1,
-      "size": 25236142,
-      "mtime": 1769221945890.743
     }
   ],
   "music": [
     {
-      "name": "HOYO-MiX - I'm back, Kiana",
-      "file": "HOYO-MiX - I'm back,Kiana.flac",
-      "size": 52718466,
-      "mtime": 1780539000801.9028
+      "name": "I'm back,Kiana-HOYO-MiX",
+      "file": "I'm back,Kiana-HOYO-MiX.mp3",
+      "size": 1239949,
+      "mtime": 1780726409480.0088
     }
   ]
 };

@@ -89,21 +89,50 @@ function buildDefaultImagesFromManifest() {
   }));
 }
 
-// ===== 从清单构建音乐列表 =====
+// ===== 从清单 + localStorage 构建统一音乐列表 =====
+function getCustomMusicTracks() {
+  const raw = safeGetStorage(MUSIC_PLAYLIST_KEY);
+  const parsed = safeParseJSON(raw, []);
+  if (!Array.isArray(parsed)) return [];
+  // 过滤掉无效条目
+  return parsed.filter(t => t && typeof t.name === 'string' && typeof t.file === 'string' && t.name && t.file);
+}
+
+function saveCustomMusicTracks(tracks) {
+  if (!Array.isArray(tracks)) return;
+  safeSetStorage(MUSIC_PLAYLIST_KEY, JSON.stringify(tracks));
+}
+
 function buildMusicFromManifest() {
-  if (MANIFEST && MANIFEST.music && MANIFEST.music.length > 0) {
-    return MANIFEST.music;
+  // 从清单获取磁盘上的音乐文件
+  const manifestTracks = (MANIFEST && MANIFEST.music && MANIFEST.music.length > 0)
+    ? MANIFEST.music.map(m => ({ name: m.name || m.file, file: m.file }))
+    : [];
+
+  // 合并自定义曲目（去重）
+  const customTracks = getCustomMusicTracks();
+  const seenFiles = new Set(manifestTracks.map(t => t.file));
+  const merged = [...manifestTracks];
+  customTracks.forEach(t => {
+    if (!seenFiles.has(t.file)) {
+      merged.push(t);
+      seenFiles.add(t.file);
+    }
+  });
+
+  // 如果没有清单曲目也没有自定义曲目，提供默认
+  if (merged.length === 0) {
+    merged.push({ name: "HOYO-MiX - I'm back, Kiana", file: "I'm back,Kiana-HOYO-MiX.mp3" });
   }
-  // 默认仅保留 I'm back, Kiana
-  return [
-    { name: 'HOYO-MiX - I\'m back, Kiana', file: 'HOYO-MiX - I\'m back,Kiana.flac' }
-  ];
+
+  return merged;
 }
 
 // ===== localStorage 键名 =====
 const STORAGE_KEY = 'gallery_admin_data';
 const SESSION_KEY = 'gallery_session_sources';
 const AUTH_KEY = 'gallery_admin_auth';
+const MUSIC_PLAYLIST_KEY = 'gallery_bg_music_custom';
 
 // ============================================================
 //  🛡️ 安全工具函数
@@ -332,6 +361,17 @@ const adminMusicSelect = $('#adminMusicSelect');
 const adminMusicVolume = $('#adminMusicVolume');
 const adminMusicTrackInfo = $('#adminMusicTrackInfo');
 
+// Music Management Modal
+const musicMgmtModal = $('#musicMgmtModal');
+const musicMgmtClose = $('#musicMgmtClose');
+const adminMusicMgmtBtn = $('#adminMusicMgmtBtn');
+const musicFileInput = $('#musicFileInput');
+const musicFilenameInput = $('#musicFilenameInput');
+const musicAddBtn = $('#musicAddBtn');
+const musicAddError = $('#musicAddError');
+const musicTrackList = $('#musicTrackList');
+const musicTrackCount = $('#musicTrackCount');
+
 // Login Modal
 const loginModal = $('#loginModal');
 const loginForm = $('#loginForm');
@@ -409,9 +449,18 @@ let searchDebounceTimer = null;
 let preloadCache = new Map();  // 预加载缓存
 
 // ===== 音乐 =====
-const musicTracks = buildMusicFromManifest();
-const defaultTrack = musicTracks.length > 0 ? musicTracks[0].file : '';
+let musicTracks = buildMusicFromManifest();
 let currentTrackIndex = 0;
+
+/** 刷新音乐列表（合并清单 + localStorage）并更新 UI */
+function refreshMusicTracks() {
+  musicTracks = buildMusicFromManifest();
+  if (currentTrackIndex >= musicTracks.length) currentTrackIndex = 0;
+  // 更新管理弹窗列表
+  renderMusicTrackList();
+  // 更新管理栏下拉
+  if (adminMusicSelect) populateAdminMusicSelect();
+}
 
 // ============================================================
 //  🎵 音乐 — 背景自动播放 + 管理员可见控制
@@ -454,16 +503,16 @@ function initBackgroundMusic() {
       currentTrackIndex = idx;
       setTrack(musicTracks[idx].file);
     } else {
-      setTrack(defaultTrack);
+      setTrack(musicTracks[0]?.file || '');
     }
   } else {
-    setTrack(defaultTrack);
+    setTrack(musicTracks[0]?.file || '');
   }
 
   // 尝试自动播放（用户首次交互后生效）
   const tryAutoPlay = () => {
     if (!audioPlayer.src || audioPlayer.src === window.location.href) {
-      setTrack(defaultTrack);
+      setTrack(musicTracks[0]?.file || '');
     }
     audioPlayer.play().catch(() => {
       // 浏览器阻止自动播放 — 在首次用户交互时重试
@@ -497,23 +546,9 @@ function initAdminMusicControls() {
   adminMusicVolume.value = Math.round(audioPlayer.volume * 100);
 
   // 构建曲目选择下拉（管理员可切换曲目）
+  populateAdminMusicSelect();
+
   if (adminMusicSelect) {
-    adminMusicSelect.innerHTML = '';
-    musicTracks.forEach((t, idx) => {
-      const opt = document.createElement('option');
-      opt.value = t.file;
-      opt.textContent = t.name || t.file;
-      adminMusicSelect.appendChild(opt);
-    });
-    // 尝试恢复上次选择
-    const saved = safeGetStorage('gallery_bg_track');
-    if (saved) {
-      const found = Array.from(adminMusicSelect.options).find(o => o.value === saved);
-      if (found) adminMusicSelect.value = saved;
-    } else if (musicTracks.length > 0) {
-      // 选中当前TrackIndex对应项
-      if (musicTracks[currentTrackIndex]) adminMusicSelect.value = musicTracks[currentTrackIndex].file;
-    }
     adminMusicSelect.addEventListener('change', () => {
       const file = adminMusicSelect.value;
       if (file) {
@@ -537,7 +572,7 @@ function initAdminMusicControls() {
       isPlaying = false;
     } else {
       if (!audioPlayer.src || audioPlayer.src === window.location.href) {
-        setTrack(defaultTrack);
+        setTrack(musicTracks[0]?.file || '');
       }
       audioPlayer.play().catch(() => {});
       isPlaying = true;
@@ -572,6 +607,233 @@ function initAdminMusicControls() {
     adminMusicPlayBtn.title = '单击播放/暂停，双击切换曲目';
   }
 }
+function populateAdminMusicSelect() {
+  if (!adminMusicSelect) return;
+  adminMusicSelect.innerHTML = '';
+  musicTracks.forEach((t) => {
+    const opt = document.createElement('option');
+    opt.value = t.file;
+    opt.textContent = t.name || t.file;
+    adminMusicSelect.appendChild(opt);
+  });
+  const saved = safeGetStorage('gallery_bg_track');
+  if (saved) {
+    const found = Array.from(adminMusicSelect.options).find(o => o.value === saved);
+    if (found) adminMusicSelect.value = saved;
+  } else if (musicTracks.length > 0 && musicTracks[currentTrackIndex]) {
+    adminMusicSelect.value = musicTracks[currentTrackIndex].file;
+  }
+}
+
+/** 渲染音乐管理弹窗的曲目列表 */
+function renderMusicTrackList() {
+  if (!musicTrackList || !musicTrackCount) return;
+
+  musicTrackList.innerHTML = '';
+  musicTrackCount.textContent = `${musicTracks.length} 首`;
+
+  if (musicTracks.length === 0) {
+    musicTrackList.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px;">暂无曲目，请添加背景音乐</p>';
+    return;
+  }
+
+  musicTracks.forEach((track, idx) => {
+    const item = document.createElement('div');
+    item.className = 'music-track-item';
+    if (idx === currentTrackIndex) item.classList.add('active');
+
+    const icon = document.createElement('span');
+    icon.className = 'music-track-item-icon';
+    icon.textContent = idx === currentTrackIndex ? '▶️' : '🎵';
+
+    const name = document.createElement('span');
+    name.className = 'music-track-item-name';
+    name.textContent = sanitizeText(track.name || track.file, 100);
+    name.title = track.name || track.file;
+
+    const badge = document.createElement('span');
+    badge.className = 'music-track-item-badge';
+    const isManifest = MANIFEST && MANIFEST.music && MANIFEST.music.some(m => m.file === track.file);
+    badge.textContent = isManifest ? '内置' : '自定义';
+
+    const actions = document.createElement('div');
+    actions.className = 'music-track-item-actions';
+
+    const playBtn = document.createElement('button');
+    playBtn.className = 'music-track-item-btn play-btn';
+    playBtn.title = '播放此曲目';
+    playBtn.textContent = '▶';
+    playBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentTrackIndex = idx;
+      setTrack(track.file);
+      safeSetStorage('gallery_bg_track', track.file);
+      audioPlayer.play().catch(() => {});
+      if (adminMusicSelect) adminMusicSelect.value = track.file;
+      renderMusicTrackList();
+    });
+
+    if (!isManifest) {
+      const delBtn = document.createElement('button');
+      delBtn.className = 'music-track-item-btn delete-btn';
+      delBtn.title = '删除此曲目';
+      delBtn.textContent = '🗑';
+      delBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const customTracks = getCustomMusicTracks();
+        const updated = customTracks.filter(t => t.file !== track.file);
+        saveCustomMusicTracks(updated);
+        refreshMusicTracks();
+        if (currentTrackIndex >= musicTracks.length) {
+          currentTrackIndex = 0;
+        }
+        if (musicTracks.length > 0) {
+          setTrack(musicTracks[0].file);
+          safeSetStorage('gallery_bg_track', musicTracks[0].file);
+          audioPlayer.play().catch(() => {});
+        } else {
+          audioPlayer.pause();
+          audioPlayer.src = '';
+        }
+      });
+      actions.appendChild(delBtn);
+    }
+
+    actions.appendChild(playBtn);
+    item.appendChild(icon);
+    item.appendChild(name);
+    item.appendChild(badge);
+    item.appendChild(actions);
+
+    item.addEventListener('dblclick', () => {
+      currentTrackIndex = idx;
+      setTrack(track.file);
+      safeSetStorage('gallery_bg_track', track.file);
+      audioPlayer.play().catch(() => {});
+      if (adminMusicSelect) adminMusicSelect.value = track.file;
+      renderMusicTrackList();
+    });
+
+    musicTrackList.appendChild(item);
+  });
+}
+
+/** 初始化音乐管理弹窗 */
+function initMusicManagement() {
+  if (!musicMgmtModal || !adminMusicMgmtBtn) return;
+
+  adminMusicMgmtBtn.addEventListener('click', () => {
+    musicFileInput.value = '';
+    musicFilenameInput.value = '';
+    if (musicAddError) musicAddError.style.display = 'none';
+    renderMusicTrackList();
+    musicMgmtModal.classList.add('active');
+    musicMgmtModal.setAttribute('aria-hidden', 'false');
+  });
+
+  musicMgmtClose.addEventListener('click', () => {
+    musicMgmtModal.classList.remove('active');
+    musicMgmtModal.setAttribute('aria-hidden', 'true');
+  });
+  musicMgmtModal.addEventListener('click', (e) => {
+    if (e.target === musicMgmtModal) {
+      musicMgmtModal.classList.remove('active');
+      musicMgmtModal.setAttribute('aria-hidden', 'true');
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && musicMgmtModal.classList.contains('active')) {
+      musicMgmtModal.classList.remove('active');
+      musicMgmtModal.setAttribute('aria-hidden', 'true');
+    }
+  });
+
+  musicAddBtn.addEventListener('click', () => {
+    if (musicAddError) musicAddError.style.display = 'none';
+
+    const file = musicFileInput.files[0];
+    const manualName = sanitizeFilename(musicFilenameInput.value.trim());
+
+    if (file) {
+      if (!/^audio\//.test(file.type) && !file.name.match(/\.(mp3|flac|wav|ogg|m4a|aac|wma)$/i)) {
+        if (musicAddError) {
+          musicAddError.textContent = '请选择有效的音频文件（mp3 / flac / wav / ogg 等）';
+          musicAddError.style.display = 'block';
+        }
+        return;
+      }
+
+      const filename = sanitizeFilename(file.name);
+      if (musicTracks.some(t => t.file === filename)) {
+        if (musicAddError) {
+          musicAddError.textContent = '同名曲目已存在，请勿重复添加';
+          musicAddError.style.display = 'block';
+        }
+        return;
+      }
+
+      const objectURL = URL.createObjectURL(file);
+      const customTracks = getCustomMusicTracks();
+      const displayName = file.name.replace(/\.[^.]+$/, '');
+      customTracks.push({ name: displayName, file: filename, objectURL: objectURL });
+      saveCustomMusicTracks(customTracks);
+
+      refreshMusicTracks();
+      musicFileInput.value = '';
+      currentTrackIndex = musicTracks.findIndex(t => t.file === filename);
+      if (currentTrackIndex >= 0 && objectURL) {
+        setTrack(objectURL);
+      }
+      safeSetStorage('gallery_bg_track', filename);
+    } else if (manualName) {
+      if (!manualName.match(/\.(mp3|flac|wav|ogg|m4a|aac|wma)$/i)) {
+        if (musicAddError) {
+          musicAddError.textContent = '文件名需以音频扩展名结尾（如 .mp3 .flac .wav .ogg）';
+          musicAddError.style.display = 'block';
+        }
+        return;
+      }
+
+      if (musicTracks.some(t => t.file === manualName)) {
+        if (musicAddError) {
+          musicAddError.textContent = '同名曲目已存在，请勿重复添加';
+          musicAddError.style.display = 'block';
+        }
+        return;
+      }
+
+      const customTracks = getCustomMusicTracks();
+      const displayName = manualName.replace(/\.[^.]+$/, '');
+      customTracks.push({ name: displayName, file: manualName });
+      saveCustomMusicTracks(customTracks);
+
+      refreshMusicTracks();
+      musicFilenameInput.value = '';
+      currentTrackIndex = musicTracks.findIndex(t => t.file === manualName);
+      if (currentTrackIndex >= 0) {
+        setTrack(manualName);
+      }
+      safeSetStorage('gallery_bg_track', manualName);
+      audioPlayer.play().catch(() => {});
+    } else {
+      if (musicAddError) {
+        musicAddError.textContent = '请选择音频文件或输入文件名';
+        musicAddError.style.display = 'block';
+      }
+    }
+  });
+
+  if (musicFileInput) {
+    musicFileInput.addEventListener('change', () => {
+      const file = musicFileInput.files[0];
+      if (file && !musicFilenameInput.value) {
+        musicFilenameInput.placeholder = `将添加: ${file.name}`;
+      }
+    });
+  }
+}
+
 // ============================================================
 function buildImageSources() {
   if (imageSources.length === 0) {
@@ -1249,10 +1511,6 @@ layoutToggle.addEventListener('click', () => {
 });
 
 // ============================================================
-//  🎵 音乐
-// ============================================================
-
-// ============================================================
 //  📁 文件夹选择（运行时添加图片）
 // ============================================================
 function initFolderScanner() {
@@ -1739,6 +1997,7 @@ window.addEventListener('DOMContentLoaded', () => {
   initFolderScanner();
   initBackgroundMusic();
   initAdminMusicControls();
+  initMusicManagement();
   renderGallery();
 
   resizeCanvas();
